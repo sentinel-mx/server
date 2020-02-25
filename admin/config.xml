@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		addrulepath="/administrator/components/com_sentinel/models/rules"
+		addfieldpath="/administrator/components/com_sentinel/models/fields"
+		name="global_config"
+		label="COM_SENTINEL_CONFIG_GLOBAL_LABEL"
+		description="COM_SENTINEL_CONFIG_GLOBAL_DESC">
+		<field
+			name="check_in"
+			type="list"
+			default="0"
+			label="COM_SENTINEL_CONFIG_CHECK_TIMER_LABEL"
+			description="COM_SENTINEL_CONFIG_CHECK_TIMER_DESC">
+			<option
+				value="-5 hours">COM_SENTINEL_CONFIG_CHECK_TIMER_OPTION_ONE</option>
+			<option
+				value="-12 hours">COM_SENTINEL_CONFIG_CHECK_TIMER_OPTION_TWO</option>
+			<option
+				value="-1 day">COM_SENTINEL_CONFIG_CHECK_TIMER_OPTION_THREE</option>
+			<option
+				value="-2 day">COM_SENTINEL_CONFIG_CHECK_TIMER_OPTION_FOUR</option>
+			<option
+				value="-1 week">COM_SENTINEL_CONFIG_CHECK_TIMER_OPTION_FIVE</option>
+			<option
+				value="0">COM_SENTINEL_CONFIG_CHECK_TIMER_OPTION_SIX</option>
+		</field>
+		<field type="spacer" name="spacerAuthor" hr="true" />
+		<field
+			name="save_history"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+			name="history_limit"
+			type="text"
+			filter="integer"
+			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			default="10"
+		/>
+		<field type="spacer" name="spacerHistory" hr="true" />
+
+		<!-- Default_accesslevel Field. Type: Accesslevel. (joomla) -->
+		<field
+			type="accesslevel"
+			name="default_accesslevel"
+			label="COM_SENTINEL_CONFIG_DEFAULT_ACCESSLEVEL_LABEL"
+			description="COM_SENTINEL_CONFIG_DEFAULT_ACCESSLEVEL_DESCRIPTION"
+			required="true"
+			multiple="false"
+		/>
+		<!-- Add_isis_template Field. Type: Radio. (joomla) -->
+		<field
+			type="radio"
+			name="add_isis_template"
+			label="COM_SENTINEL_CONFIG_ADD_ISIS_TEMPLATE_LABEL"
+			description="COM_SENTINEL_CONFIG_ADD_ISIS_TEMPLATE_DESCRIPTION"
+			class="btn-group btn-group-yesno"
+			default="1">
+			<!-- Option Set. -->
+			<option value="1">
+				COM_SENTINEL_CONFIG_YES</option>
+			<option value="0">
+				COM_SENTINEL_CONFIG_NO</option>
+		</field>
+		<!-- Spacer_hr Field. Type: Spacer. A None Database Field. (joomla) -->
+		<field type="spacer" name="spacer_hr" hr="true" class="spacer_hr" />
+		<field name="autorTitle"
+			type="spacer"
+			label="COM_SENTINEL_CONFIG_AUTHOR"
+		/>
+		<field name="autorName"
+			type="text"
+			label="COM_SENTINEL_CONFIG_AUTHOR_NAME_LABEL"
+			description="COM_SENTINEL_CONFIG_AUTHOR_NAME_DESC"
+			size="60"
+			default="Llewellyn van der Merwe"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="autorEmail"
+			type="email"
+			label="COM_SENTINEL_CONFIG_AUTHOR_EMAIL_LABEL"
+			description="COM_SENTINEL_CONFIG_AUTHOR_EMAIL_DESC"
+			size="60"
+			default="info@vdm.io"
+			readonly="true"
+			class="readonly"
+		/>
+	</fieldset>
+	<fieldset
+		name="uikit_config"
+		label="COM_SENTINEL_CONFIG_UIKIT_LABEL"
+		description="COM_SENTINEL_CONFIG_UIKIT_DESC">
+		<field name="uikit_version"
+			type="radio"
+			label="COM_SENTINEL_CONFIG_UIKIT_VERSION_LABEL"
+			description="COM_SENTINEL_CONFIG_UIKIT_VERSION_DESC"
+			class="btn-group btn-group-yesno"
+			default="2">
+			<!-- Option Set. -->
+			<option value="2">
+				COM_SENTINEL_CONFIG_UIKIT_V2</option>"
+			<option value="3">
+				COM_SENTINEL_CONFIG_UIKIT_V3</option>"
+		</field>
+		<field name="uikit_load"
+			type="radio"
+			label="COM_SENTINEL_CONFIG_UIKIT_LOAD_LABEL"
+			description="COM_SENTINEL_CONFIG_UIKIT_LOAD_DESC"
+			class="btn-group btn-group-yesno"
+			default="">
+			<!-- Option Set. -->
+			<option value="">
+				COM_SENTINEL_CONFIG_AUTO_LOAD</option>"
+			<option value="1">
+				COM_SENTINEL_CONFIG_FORCE_LOAD</option>"
+			<option value="3">
+				COM_SENTINEL_CONFIG_ONLY_EXTRA</option>"
+			<option value="2">
+				COM_SENTINEL_CONFIG_DONT_LOAD</option>"
+		</field>
+		<field name="uikit_min"
+			type="radio"
+			label="COM_SENTINEL_CONFIG_UIKIT_MIN_LABEL"
+			description="COM_SENTINEL_CONFIG_UIKIT_MIN_DESC"
+			class="btn-group btn-group-yesno"
+			default="">
+			<!-- Option Set. -->
+			<option value="">
+				COM_SENTINEL_CONFIG_NO</option>"
+			<option value=".min">
+				COM_SENTINEL_CONFIG_YES</option>"
+		</field>
+		<field name="uikit_style"
+			type="radio"
+			label="COM_SENTINEL_CONFIG_UIKIT_STYLE_LABEL"
+			description="COM_SENTINEL_CONFIG_UIKIT_STYLE_DESC"
+			class="btn-group btn-group-yesno"
+			showon="uikit_version:2"
+			default="">
+			<!-- Option Set. -->
+			<option value="">
+				COM_SENTINEL_CONFIG_FLAT_LOAD</option>"
+			<option value=".almost-flat">
+				COM_SENTINEL_CONFIG_ALMOST_FLAT_LOAD</option>"
+			<option value=".gradient">
+				COM_SENTINEL_CONFIG_GRADIANT_LOAD</option>"
+		</field>
+	</fieldset>
+	<fieldset
+		name="encryption_config"
+		label="COM_SENTINEL_CONFIG_ENCRYPTION_LABEL"
+		description="COM_SENTINEL_CONFIG_ENCRYPTION_DESC">
+
+		<!-- Encryption_key_path Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="encryption_key_path"
+			label="COM_SENTINEL_CONFIG_ENCRYPTION_KEY_PATH_LABEL"
+			size="50"
+			maxlength="150"
+			description="COM_SENTINEL_CONFIG_ENCRYPTION_KEY_PATH_DESCRIPTION"
+			class="text_area"
+			required="true"
+			filter="PATH"
+			hint="COM_SENTINEL_CONFIG_ENCRYPTION_KEY_PATH_HINT"
+		/>
+	</fieldset>
+	<fieldset
+		name="integration_custom_config"
+		label="COM_SENTINEL_CONFIG_INTEGRATION">
+
+		<!-- Activate_membersmanager_info Field. Type: Radio. (joomla) -->
+		<field
+			type="radio"
+			name="activate_membersmanager_info"
+			label="COM_SENTINEL_CONFIG_ACTIVATE_MEMBERSMANAGER_INFO_LABEL"
+			description="COM_SENTINEL_CONFIG_ACTIVATE_MEMBERSMANAGER_INFO_DESCRIPTION"
+			class="btn-group btn-group-yesno"
+			default="0">
+			<!-- Option Set. -->
+			<option value="1">
+				COM_SENTINEL_CONFIG_YES</option>
+			<option value="0">
+				COM_SENTINEL_CONFIG_NO</option>
+		</field>
+		<!-- Membersmanager_target_account Field. Type: List. (joomla) -->
+		<field
+			type="list"
+			name="membersmanager_target_account"
+			label="COM_SENTINEL_CONFIG_MEMBERSMANAGER_TARGET_ACCOUNT_LABEL"
+			description="COM_SENTINEL_CONFIG_MEMBERSMANAGER_TARGET_ACCOUNT_DESCRIPTION"
+			class="list_class"
+			multiple="true"
+			showon="activate_membersmanager_info:1">
+			<!-- Option Set. -->
+			<option value="1">
+				COM_SENTINEL_CONFIG_MAIN_LOGIN</option>
+			<option value="2">
+				COM_SENTINEL_CONFIG_MAIN</option>
+			<option value="3">
+				COM_SENTINEL_CONFIG_SUB</option>
+			<option value="4">
+				COM_SENTINEL_CONFIG_SUB_LOGIN</option>
+		</field>
+		<!-- Membersmanager_target_type Field. Type: Targettypes. (custom) -->
+		<field
+			type="targettypes"
+			name="membersmanager_target_type"
+			label="COM_SENTINEL_CONFIG_MEMBERSMANAGER_TARGET_TYPE_LABEL"
+			description="COM_SENTINEL_CONFIG_MEMBERSMANAGER_TARGET_TYPE_DESCRIPTION"
+			class="list_class"
+			multiple="true"
+			required="false"
+			showon="activate_membersmanager_info:1"
+		/>
+		<!-- Membersmanager_relation_type Field. Type: Radio. (joomla) -->
+		<field
+			type="radio"
+			name="membersmanager_relation_type"
+			label="COM_SENTINEL_CONFIG_MEMBERSMANAGER_RELATION_TYPE_LABEL"
+			description="COM_SENTINEL_CONFIG_MEMBERSMANAGER_RELATION_TYPE_DESCRIPTION"
+			class="btn-group btn-group-yesno"
+			default="1"
+			showon="activate_membersmanager_info:1">
+			<!-- Option Set. -->
+			<option value="1">
+				COM_SENTINEL_CONFIG_ONE_TO_ONE</option>
+			<option value="2">
+				COM_SENTINEL_CONFIG_ONE_TO_MANY</option>
+		</field>
+		<!-- Placeholder_prefix Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="placeholder_prefix"
+			label="COM_SENTINEL_CONFIG_PLACEHOLDER_PREFIX_LABEL"
+			size="50"
+			maxlength="150"
+			default="member"
+			description="COM_SENTINEL_CONFIG_PLACEHOLDER_PREFIX_DESCRIPTION"
+			class="text_area"
+			filter="WORD"
+			message="COM_SENTINEL_CONFIG_PLACEHOLDER_PREFIX_MESSAGE"
+			hint="COM_SENTINEL_CONFIG_PLACEHOLDER_PREFIX_HINT"
+			autocomplete="on"
+			showon="activate_membersmanager_info:1"
+		/>
+		<!-- Profile_fields Field. Type: Subform. (joomla) -->
+		<field
+			type="subform"
+			name="profile_fields"
+			label="COM_SENTINEL_CONFIG_PROFILE_FIELDS_LABEL"
+			layout="joomla.form.field.subform.repeatable-table"
+			multiple="true"
+			buttons="add,remove,move"
+			description="COM_SENTINEL_CONFIG_PROFILE_FIELDS_DESCRIPTION"
+			icon="list"
+			max="20"
+			min="1"
+			showon="activate_membersmanager_info:1">
+			<form hidden="true" name="list_profile_fields_modal" repeat="true">
+				<!-- Field Field. Type: Profilefields. (custom) -->
+				<field
+					type="profilefields"
+					name="field"
+					label="COM_SENTINEL_CONFIG_FIELD_LABEL"
+					class="list_class"
+					multiple="false"
+					button="false"
+				/>
+			</form>
+		</field>
+		<!-- Edit_fields Field. Type: Subform. (joomla) -->
+		<field
+			type="subform"
+			name="edit_fields"
+			label="COM_SENTINEL_CONFIG_EDIT_FIELDS_LABEL"
+			layout="joomla.form.field.subform.repeatable-table"
+			multiple="true"
+			buttons="add,remove,move"
+			description="COM_SENTINEL_CONFIG_EDIT_FIELDS_DESCRIPTION"
+			icon="list"
+			max="20"
+			min="1"
+			showon="activate_membersmanager_info:1[AND]membersmanager_relation_type:1">
+			<form hidden="true" name="list_edit_fields_modal" repeat="true">
+				<!-- Field Field. Type: Formfields. (custom) -->
+				<field
+					type="formfields"
+					name="field"
+					label="COM_SENTINEL_CONFIG_FIELD_LABEL"
+					class="list_class"
+					multiple="false"
+					button="false"
+				/>
+			</form>
+		</field>
+	</fieldset>
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC">
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			validate="rules"
+			filter="rules"
+			component="com_sentinel"
+			section="component"
+		/>
+	</fieldset>
+</config>

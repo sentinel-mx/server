@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2" method="upgrade">
+	<name>COM_SENTINEL</name>
+	<creationDate>25th February, 2020</creationDate>
+	<author>Llewellyn van der Merwe</author>
+	<authorEmail>info@vdm.io</authorEmail>
+	<authorUrl>https://www.vdm.io/</authorUrl>
+	<copyright>Copyright (C) 2020. All Rights Reserved</copyright>
+	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<version>2.0.6</version>
+	<description><![CDATA[
+		<h1>Sentinel (v.2.0.6)</h1>
+		<div style="clear: both;"></div>
+		<p>The sentinel server portal of the project.</p>
+		<p>Created by <a href="https://www.vdm.io/" target="_blank">Llewellyn van der Merwe</a><br /><small>Development started 16th June, 2017</small></p>
+	]]></description>
+
+	<!-- Runs on install; New in Joomla 1.5 -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<!-- Runs on uninstall; New in Joomla 1.5 -->
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<!-- Runs on install/uninstall/update; New in Joomla 2.5 -->
+	<scriptfile>script.php</scriptfile>
+
+	<media destination="com_sentinel" folder="media">
+		<filename>index.html</filename>
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>uikit-v2</folder>
+		<folder>uikit-v3</folder>
+	</media>
+
+	<!-- Update Schema; New in Joomla 2.5 -->
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql/</schemapath>
+		</schemas>
+	</update>
+
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>sentinel.php</filename>
+		<filename>router.php</filename>
+		<folder>assets</folder>
+		<folder>helpers</folder>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+		<folder>layouts</folder>
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_sentinel.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.com_sentinel.sys.ini</language>
+	</languages>
+
+	<administration>
+		<menu>COM_SENTINEL_MENU</menu>
+		<submenu>
+			<!-- Instead of link you can specify individual link attributes -->
+			<menu option="com_sentinel" view="forms">COM_SENTINEL_MENU_FORMS</menu>
+			<menu option="com_sentinel" view="data_sets">COM_SENTINEL_MENU_DATA_SETS</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>sentinel.php</filename>
+			<filename>README.txt</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<folder>layouts</folder>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_sentinel.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_sentinel.sys.ini</language>
+		</languages>
+
+	</administration>
+</extension>

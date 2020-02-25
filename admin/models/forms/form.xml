@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	addrulepath="/administrator/components/com_sentinel/models/rules"
+	addfieldpath="/administrator/components/com_sentinel/models/fields"
+>
+	<fieldset name="details">
+		<!-- Default Fields. -->
+		<!-- Id Field. Type: Text (joomla) -->
+		<field
+			name="id"
+			type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
+			readonly="true"
+		/>
+		<!-- Date Created Field. Type: Calendar (joomla) -->
+		<field
+			name="created"
+			type="calendar"
+			label="COM_SENTINEL_FORM_CREATED_DATE_LABEL"
+			description="COM_SENTINEL_FORM_CREATED_DATE_DESC"
+			size="22"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="user_utc"
+		/>
+		<!-- User Created Field. Type: User (joomla) -->
+		<field
+			name="created_by"
+			type="user"
+			label="COM_SENTINEL_FORM_CREATED_BY_LABEL"
+			description="COM_SENTINEL_FORM_CREATED_BY_DESC"
+		/>
+		<!-- Published Field. Type: List (joomla) -->
+		<field name="published" type="list" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+			filter="intval" size="1" default="1" >
+			<option value="1">
+				JPUBLISHED</option>
+			<option value="0">
+				JUNPUBLISHED</option>
+			<option value="2">
+				JARCHIVED</option>
+			<option value="-2">
+				JTRASHED</option>
+		</field>
+		<!-- Date Modified Field. Type: Calendar (joomla) -->
+		<field name="modified" type="calendar" class="readonly"
+			label="COM_SENTINEL_FORM_MODIFIED_DATE_LABEL" description="COM_SENTINEL_FORM_MODIFIED_DATE_DESC"
+			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+		<!-- User Modified Field. Type: User (joomla) -->
+		<field name="modified_by" type="user"
+			label="COM_SENTINEL_FORM_MODIFIED_BY_LABEL"
+			description="COM_SENTINEL_FORM_MODIFIED_BY_DESC"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+		<!-- Access Field. Type: Accesslevel (joomla) -->
+		<field name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			default="1"
+			required="false"
+		/>
+		<!-- Ordering Field. Type: Numbers (joomla) -->
+		<field
+			name="ordering"
+			type="number"
+			class="inputbox validate-ordering"
+			label="COM_SENTINEL_FORM_ORDERING_LABEL"
+			description=""
+			default="0"
+			size="6"
+			required="false"
+		/>
+		<!-- Version Field. Type: Text (joomla) -->
+		<field
+			name="version"
+			type="text"
+			class="readonly"
+			label="COM_SENTINEL_FORM_VERSION_LABEL"
+			description="COM_SENTINEL_FORM_VERSION_DESC"
+			size="6"
+			readonly="true"
+			filter="unset"
+		/>
+		<!-- Dynamic Fields. -->
+		<!-- Name Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="name"
+			label="COM_SENTINEL_FORM_NAME_LABEL"
+			size="40"
+			maxlength="150"
+			description="JFIELD_TITLE_DESC"
+			class="text_area"
+			readonly="false"
+			disabled="false"
+			required="true"
+			filter="STRING"
+			message="COM_SENTINEL_FORM_NAME_MESSAGE"
+			hint="COM_SENTINEL_FORM_NAME_HINT"
+		/>
+		<!-- Guid Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="guid"
+			label="COM_SENTINEL_FORM_GUID_LABEL"
+			size="40"
+			maxlength="40"
+			description="COM_SENTINEL_FORM_GUID_DESCRIPTION"
+			class="text_area"
+			readonly="true"
+			filter="CMD"
+			validate="guid"
+			hint="COM_SENTINEL_FORM_GUID_HINT"
+		/>
+		<!-- Alias Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="alias"
+			label="COM_SENTINEL_FORM_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			filter="STRING"
+			hint="COM_SENTINEL_FORM_ALIAS_HINT"
+		/>
+		<!-- Hostkey Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="hostkey"
+			label="COM_SENTINEL_FORM_HOSTKEY_LABEL"
+			size="128"
+			maxlength="128"
+			description="COM_SENTINEL_FORM_HOSTKEY_DESCRIPTION"
+			class="text_area span12"
+			readonly="true"
+			filter="STRING"
+			hint="COM_SENTINEL_FORM_HOSTKEY_HINT"
+		/>
+		<!-- Member Field. Type: Member. (custom) -->
+		<field
+			type="member"
+			name="member"
+			label="COM_SENTINEL_FORM_MEMBER_LABEL"
+			class="list_class"
+			multiple="false"
+			required="true"
+		/>
+		<!-- Trustkey Field. Type: Text. (joomla) -->
+		<field
+			type="text"
+			name="trustkey"
+			label="COM_SENTINEL_FORM_TRUSTKEY_LABEL"
+			size="128"
+			maxlength="128"
+			description="COM_SENTINEL_FORM_TRUSTKEY_DESCRIPTION"
+			class="text_area"
+			filter="STRING"
+			hint="COM_SENTINEL_FORM_TRUSTKEY_HINT"
+		/>
+	</fieldset>
+	
+	<!-- Access Control Fields. -->
+	<fieldset name="accesscontrol">
+		<!-- Asset Id Field. Type: Hidden (joomla) -->
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"
+		/>
+		<!-- Rules Field. Type: Rules (joomla) -->
+		<field
+			name="rules"
+			type="rules"
+			label="Permissions in relation to this form"
+			translate_label="false"
+			filter="rules"
+			validate="rules"
+			class="inputbox"
+			component="com_sentinel"
+			section="form"
+		/>
+	</fieldset>
+</form>
