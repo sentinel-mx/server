@@ -60,6 +60,8 @@
 		<action name="form.version" title="COM_SENTINEL_FORMS_EDIT_VERSION" description="COM_SENTINEL_FORMS_EDIT_VERSION_DESC" />
 		<action name="form.export" title="COM_SENTINEL_FORMS_EXPORT" description="COM_SENTINEL_FORMS_EXPORT_DESC" />
 		<action name="form.import" title="COM_SENTINEL_FORMS_IMPORT" description="COM_SENTINEL_FORMS_IMPORT_DESC" />
+		<action name="form.privacy.access" title="COM_SENTINEL_FORMS_PRIVACY_ACCESS" description="COM_SENTINEL_FORMS_PRIVACY_ACCESS_DESC" />
+		<action name="form.privacy.delete" title="COM_SENTINEL_FORMS_PRIVACY_DELETE" description="COM_SENTINEL_FORMS_PRIVACY_DELETE_DESC" />
 		<action name="form.submenu" title="COM_SENTINEL_FORMS_SUBMENU" description="COM_SENTINEL_FORMS_SUBMENU_DESC" />
 		<action name="form.view.alias" title="COM_SENTINEL_FORMS_VIEW_ALIAS" description="COM_SENTINEL_FORMS_VIEW_ALIAS_DESC" />
 		<action name="form.view.guid" title="COM_SENTINEL_FORMS_VIEW_GUID" description="COM_SENTINEL_FORMS_VIEW_GUID_DESC" />
@@ -94,6 +96,8 @@
 		<action name="form.create" title="COM_SENTINEL_FORMS_CREATE" description="COM_SENTINEL_FORMS_CREATE_DESC" />
 		<action name="form.delete" title="COM_SENTINEL_FORMS_DELETE" description="COM_SENTINEL_FORMS_DELETE_DESC" />
 		<action name="form.access" title="COM_SENTINEL_FORMS_ACCESS" description="COM_SENTINEL_FORMS_ACCESS_DESC" />
+		<action name="form.privacy.delete" title="COM_SENTINEL_FORMS_PRIVACY_DELETE" description="COM_SENTINEL_FORMS_PRIVACY_DELETE_DESC" />
+		<action name="form.privacy.access" title="COM_SENTINEL_FORMS_PRIVACY_ACCESS" description="COM_SENTINEL_FORMS_PRIVACY_ACCESS_DESC" />
 		<action name="form.edit.name" title="COM_SENTINEL_FORMS_EDIT_NAME" description="COM_SENTINEL_FORMS_EDIT_NAME_DESC" />
 		<action name="form.access.name" title="COM_SENTINEL_FORMS_ACCESS_NAME" description="COM_SENTINEL_FORMS_ACCESS_NAME_DESC" />
 		<action name="form.view.name" title="COM_SENTINEL_FORMS_VIEW_NAME" description="COM_SENTINEL_FORMS_VIEW_NAME_DESC" />

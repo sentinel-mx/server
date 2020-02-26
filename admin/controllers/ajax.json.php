@@ -11,7 +11,7 @@
 /-------------------------------------------------------------------------------------------------------------------------------/
 
 	@version		2.0.6
-	@build			25th February, 2020
+	@build			26th February, 2020
 	@created		16th June, 2017
 	@package		Sentinel
 	@subpackage		ajax.json.php

@@ -11,7 +11,7 @@
 /-------------------------------------------------------------------------------------------------------------------------------/
 
 	@version		2.0.6
-	@build			25th February, 2020
+	@build			26th February, 2020
 	@created		16th June, 2017
 	@package		Sentinel
 	@subpackage		route.php
@@ -32,6 +32,49 @@ defined('_JEXEC') or die('Restricted access');
 abstract class SentinelHelperRoute
 {
 	protected static $lookup;
+
+	/**
+	 * @param int The route of the Set
+	 */
+	public static function getSetRoute($id = 0, $catid = 0)
+	{
+		if ($id > 0)
+		{
+			// Initialize the needel array.
+			$needles = array(
+				'set'  => array((int) $id)
+			);
+			// Create the link
+			$link = 'index.php?option=com_sentinel&view=set&id='. $id;
+		}
+		else
+		{
+			// Initialize the needel array.
+			$needles = array(
+				'set'  => array()
+			);
+			// Create the link but don't add the id.
+			$link = 'index.php?option=com_sentinel&view=set';
+		}
+		if ($catid > 1)
+		{
+			$categories = JCategories::getInstance('sentinel.set');
+			$category = $categories->get($catid);
+			if ($category)
+			{
+				$needles['category'] = array_reverse($category->getPath());
+				$needles['categories'] = $needles['category'];
+				$link .= '&catid='.$catid;
+			}
+		}
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid='.$item;
+		}
+
+		return $link;
+	}
 
 	/**
 	 * Get the URL route for sentinel category from a category ID and language

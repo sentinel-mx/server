@@ -11,7 +11,7 @@
 /-------------------------------------------------------------------------------------------------------------------------------/
 
 	@version		2.0.6
-	@build			25th February, 2020
+	@build			26th February, 2020
 	@created		16th June, 2017
 	@package		Sentinel
 	@subpackage		data_set.php
@@ -111,10 +111,31 @@ class SentinelModelData_set extends JModelAdmin
 				$item->metadata = $registry->toArray();
 			}
 			
-			if (!empty($item->data))
+			// get the data rows
+			if (isset($item->guid) && SentinelHelper::validGUID($item->guid))
 			{
-				// get from tables
-				
+				// Get a db connection.
+				$db = JFactory::getDbo();
+				// Create a new query object.
+				$query = $db->getQuery(true);
+				// get the data
+				$query->select($db->quoteName(array('type', 'name', 'time', 'value')));
+				$query->from($db->quoteName('#__sentinel_data'));
+				$query->where($db->quoteName('guid') . ' = ' . $db->quote($item->guid));
+				// Reset the query using our newly populated query object.
+				$db->setQuery($query);
+				// Load the results
+				$results = $db->loadAssocList();
+			
+				if (SentinelHelper::checkArray($results))
+				{
+					$item->data = array_combine(
+						array_map(
+							function($k){ return 'data'.$k; },
+							array_keys($results)
+						), $results
+					);
+				}
 			}
 			
 			if (!empty($item->id))

@@ -11,7 +11,7 @@
 /-------------------------------------------------------------------------------------------------------------------------------/
 
 	@version		2.0.6
-	@build			25th February, 2020
+	@build			26th February, 2020
 	@created		16th June, 2017
 	@package		Sentinel
 	@subpackage		sentinel.php
@@ -42,213 +42,14 @@ abstract class SentinelHelper
 	 */
 	public static $langTag;
 
-
-	/**
-	 *	Change to nice fancy date
-	 */
-	public static function fancyDate($date)
-	{
-		if (!self::isValidTimeStamp($date))
-		{
-			$date = strtotime($date);
-		}
-		return date('jS \o\f F Y',$date);
-	}
-
-	/**
-	 *	get date based in period past
-	 */
-	public static function fancyDynamicDate($date)
-	{
-		if (!self::isValidTimeStamp($date))
-		{
-			$date = strtotime($date);
-		}
-		// older then year
-		$lastyear = date("Y", strtotime("-1 year"));
-		$tragetyear = date("Y", $date);
-		if ($tragetyear <= $lastyear)
-		{
-			return date('m/d/y', $date);
-		}
-		// same day
-		$yesterday = strtotime("-1 day");
-		if ($date > $yesterday)
-		{
-			return date('g:i A', $date);
-		}
-		// just month day
-		return date('M j', $date);
-	}
-
-	/**
-	 *	Change to nice fancy day time and date
-	 */
-	public static function fancyDayTimeDate($time)
-	{
-		if (!self::isValidTimeStamp($time))
-		{
-			$time = strtotime($time);
-		}
-		return date('D ga jS \o\f F Y',$time);
-	}
-
-	/**
-	 *	Change to nice fancy time and date
-	 */
-	public static function fancyDateTime($time)
-	{
-		if (!self::isValidTimeStamp($time))
-		{
-			$time = strtotime($time);
-		}
-		return date('(G:i) jS \o\f F Y',$time);
-	}
-
-	/**
-	 *	Change to nice hour:minutes time
-	 */
-	public static function fancyTime($time)
-	{
-		if (!self::isValidTimeStamp($time))
-		{
-			$time = strtotime($time);
-		}
-		return date('G:i',$time);
-	}
-
-	/**
-	 * set the date as 2004/05 (for charts)
-	 */
-	public static function setYearMonth($date)
-	{
-		if (!self::isValidTimeStamp($date))
-		{
-			$date = strtotime($date);
-		}
-		return date('Y/m', $date);
-	}
-
-	/**
-	 * set the date as 2004/05/03 (for charts)
-	 */
-	public static function setYearMonthDay($date)
-	{
-		if (!self::isValidTimeStamp($date))
-		{
-			$date = strtotime($date);
-		}
-		return date('Y/m/d', $date);
-	}
-
-	/**
-	 *	Check if string is a valid time stamp
-	 */
-	public static function isValidTimeStamp($timestamp)
-	{
-		return ((int) $timestamp === $timestamp)
-		&& ($timestamp <= PHP_INT_MAX)
-		&& ($timestamp >= ~PHP_INT_MAX);
-	}
-
-
-	/**
-	* Tests if supplied IP address is IPv4 of IPv6 and valid.
-	**/
-	public static function isValidIP($ip, $strict = true)
-	{
-		if ($strict)
-		{
-			if (defined('FILTER_VALIDATE_IP') && defined('FILTER_FLAG_IPV4') && defined('FILTER_FLAG_IPV6') && defined('FILTER_FLAG_NO_PRIV_RANGE') && defined('FILTER_FLAG_NO_RES_RANGE'))
-			{
-				if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE))
-				{
-					return 4;
-				}
-				elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE))
-				{
-					return 6;
-				}
-			}
-			elseif (strpos($ip, '.') !== false && strpos($ip, ':') === false  && self::validateV4($ip))
-			{
-				return 4;
-			}
-			elseif (strpos($ip, ':') !== false) // most still add validation for ipv6
-			{
-				return 6;
-			}
-			return false;
-		}
-		else
-		{			
-			if (defined('FILTER_VALIDATE_IP') && defined('FILTER_FLAG_IPV4') && defined('FILTER_FLAG_IPV6'))
-			{
-				if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
-				{
-					return 4;
-				}
-				elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
-				{
-					return 6;
-				}
-			}
-			elseif (strpos($ip, '.') !== false && strpos($ip, ':') === false)
-			{
-				return 4;
-			}
-			elseif (strpos($ip, ':') !== false)
-			{
-				return 6;
-			}
-			return false;
-		}
-	}
-
-	/**
-	 * Ensures an ip address is both a valid IP and does not fall within a private network range.
-	 *
-	 * Thanks to: https://gist.github.com/cballou/2201933
-	 */
-	protected static function validateV4($ip)
-	{
-		// generate ipv4 network address
-		$ip = ip2long($ip);
-		// if the ip is set and not equivalent to 255.255.255.255
-		if ($ip !== false && $ip !== -1)
-		{
-			// make sure to get unsigned long representation of ip
-			// due to discrepancies between 32 and 64 bit OSes and
-			// signed numbers (ints default to signed in PHP)
-			$ip = sprintf('%u', $ip);
-			// do private network range checking
-			if ($ip >= 0 && $ip <= 50331647) return false;
-			if ($ip >= 167772160 && $ip <= 184549375) return false;
-			if ($ip >= 2130706432 && $ip <= 2147483647) return false;
-			if ($ip >= 2851995648 && $ip <= 2852061183) return false;
-			if ($ip >= 2886729728 && $ip <= 2887778303) return false;
-			if ($ip >= 3221225984 && $ip <= 3221226239) return false;
-			if ($ip >= 3232235520 && $ip <= 3232301055) return false;
-			if ($ip >= 4294967040) return false;
-		}
-		return true;
-	}
-
-	public static function getVar_(&$key, $table, $where = null, $whereString = 'user', $what = 'id', $operator = '=', $main = 'sentinel')
+	public static function getVar_($table, $where = null, $whereString = 'user', $what = 'id')
 	{
 		// Get a db connection.
 		$db = JFactory::getDbo();
 		// Create a new query object.
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(array($what, $whereString)));
-		if (empty($table))
-		{
-			$query->from($db->quoteName('#__'.$main));
-		}
-		else
-		{
-			$query->from($db->quoteName('#__'.$main.'_'.$table));
-		}
+		$query->from($db->quoteName('#__sentinel_'.$table));
 		$db->setQuery($query);
 		$db->execute();
 		if ($db->getNumRows())
@@ -256,10 +57,10 @@ abstract class SentinelHelper
 			$search = $db->loadObjectList();
 			foreach ($search as $item)
 			{
-				if (isset($item->{$whereString}) && !is_numeric($item->{$whereString}) && $item->{$whereString} === base64_encode(base64_decode($item->{$whereString}, true)))
+				if (isset($item->{$whereString}))
 				{
 					// basic decrypt data value.
-					$item->{$whereString} = rtrim($key->decryptString($item->{$whereString}), "\0");
+					$item->{$whereString} = self::decrypt($item->{$whereString});
 				}
 				// see if it is this one
 				if (isset($item->{$whereString}) && isset($item->{$what}) && $item->{$whereString} === $where)
@@ -3173,6 +2974,250 @@ abstract class SentinelHelper
 			return $helperClass::canAccessMember($member, $types, $user, $db);
 		}
 		return false;
+	}
+
+
+	// <<<=== Privacy integration with Joomla Privacy suite ===>>>
+
+	/**
+	 * Performs validation to determine if the data associated with a remove information request can be processed
+	 *
+	 * @param   PrivacyPlugin  $plugin  The plugin being processed
+	 * @param   PrivacyRemovalStatus  $status  The status being set
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
+	 *
+	 * @return  PrivacyRemovalStatus
+	 */
+	public static function onPrivacyCanRemoveData(&$plugin, &$status, &$request, &$user)
+	{
+		// Bucket to get all reasons why removal not allowed
+		$reasons = array();
+		// Check if user has permission to delete Forms
+		if (!$user->authorise('form.delete', 'com_sentinel') && !$user->authorise('form.privacy.delete', 'com_sentinel'))
+		{
+			$reasons[] = JText::_('COM_SENTINEL_PRIVACY_CANT_REMOVE_FORMS');
+		}
+		// Check if any reasons were found not to allow removal
+		if (self::checkArray($reasons))
+		{
+			$status->canRemove = false;
+			$status->reason = implode(' ' . PHP_EOL, $reasons) . ' ' . PHP_EOL . JText::_('COM_SENTINEL_PRIVACY_CANT_REMOVE_CONTACT_SUPPORT');
+		}
+		return $status;
+	}
+
+	/**
+	 * Processes an export request for Joomla core user data
+	 *
+	 * @param   PrivacyPlugin  $plugin  The plugin being processed
+	 * @param   DomainArray  $domains  The array of domains
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
+	 *
+	 * @return  PrivacyExportDomain[]
+	 */
+	public static function onPrivacyExportRequest(&$plugin, &$domains, &$request, &$user)
+	{
+		// Check if user has permission to access Forms
+		if ($user->authorise('form.access', 'com_sentinel') || $user->authorise('form.privacy.access', 'com_sentinel'))
+		{
+			// Get Form domain
+			$domains[] = self::createFormsDomain($plugin, $user);
+		}
+		return $domains;
+	}
+
+	/**
+	 * Create the domain for the Form
+	 *
+	 * @param   JTableUser  $user  The JTableUser object to process
+	 *
+	 * @return  PrivacyExportDomain
+	 */
+	protected static function createFormsDomain(&$plugin, &$user)
+	{
+		// create Forms domain
+		$domain = self::createDomain('form', 'sentinel_form_data');
+		// get database object
+		$db = JFactory::getDbo();
+		// get all item ids of Forms that belong to this user
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->quoteName('#__sentinel_form'));
+		if (($member_id = self::getVar('member', $user->id, 'user', 'id', '=', 'membersmanager')) !== false && is_numeric($member_id) && $member_id > 0)
+		{
+			$query->where($db->quoteName('member') . ' = ' . (int) $member_id);
+		}
+		else
+		{
+			$query->where($db->quoteName('member') . ' = -2'); // return none
+		}
+		// get all items for the Forms domain
+		$pks = $db->setQuery($query)->loadColumn();
+		// get the Forms model
+		$model = self::getModel('forms', JPATH_ADMINISTRATOR . '/components/com_sentinel');
+		// Get all item details of Forms that belong to this user
+		$items = $model->getPrivacyExport($pks, $user);
+		// check if we have items since permissions could block the request
+		if (self::checkArray($items))
+		{
+			// Remove Form default columns
+			foreach (array('params', 'asset_id', 'checked_out', 'checked_out_time', 'created', 'created_by', 'modified', 'modified_by', 'published', 'ordering', 'access', 'version', 'hits') as $column)
+			{
+				$items = ArrayHelper::dropColumn($items, $column);
+			}
+			// load the items into the domain object
+			foreach ($items as $item)
+			{
+				$domain->addItem(self::createItemFromArray($item, $item['id']));
+			}
+		}
+		return $domain;
+	}
+
+	/**
+	 * Create a new domain object
+	 *
+	 * @param   string  $name         The domain's name
+	 * @param   string  $description  The domain's description
+	 *
+	 * @return  PrivacyExportDomain
+	 *
+	 * @since   3.9.0
+	 */
+	protected static function createDomain($name, $description = '')
+	{
+		$domain              = new PrivacyExportDomain;
+		$domain->name        = $name;
+		$domain->description = $description;
+
+		return $domain;
+	}
+
+	/**
+	 * Create an item object for an array
+	 *
+	 * @param   array         $data    The array data to convert
+	 * @param   integer|null  $itemId  The ID of this item
+	 *
+	 * @return  PrivacyExportItem
+	 *
+	 * @since   3.9.0
+	 */
+	protected static function createItemFromArray(array $data, $itemId = null)
+	{
+		$item = new PrivacyExportItem;
+		$item->id = $itemId;
+
+		foreach ($data as $key => $value)
+		{
+			if (is_object($value))
+			{
+				$value = (array) $value;
+			}
+
+			if (is_array($value))
+			{
+				$value = print_r($value, true);
+			}
+
+			$field        = new PrivacyExportField;
+			$field->name  = $key;
+			$field->value = $value;
+
+			$item->addField($field);
+		}
+
+		return $item;
+	}
+
+	/**
+	 * Removes the data associated with a remove information request
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
+	 *
+	 * @return  void
+	 */
+	public static function onPrivacyRemoveData(&$plugin, &$request, &$user)
+	{
+		// Check if user has permission to delet Forms
+		if ($user->authorise('form.delete', 'com_sentinel') || $user->authorise('form.privacy.delete', 'com_sentinel'))
+		{
+			// Anonymize Form data
+			self::anonymizeFormsData($plugin, $user);
+		}
+	}
+
+	/**
+	 * Anonymize the Form data
+	 *
+	 * @param   JTableUser  $user  The JTableUser object to process
+	 *
+	 * @return  void
+	 */
+	protected static function anonymizeFormsData(&$plugin, &$user)
+	{
+		// get database object
+		$db = JFactory::getDbo();
+		// get all item ids of Forms that belong to this user
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->quoteName('#__sentinel_form'));
+		if (($member_id = self::getVar('member', $user->id, 'user', 'id', '=', 'membersmanager')) !== false && is_numeric($member_id) && $member_id > 0)
+		{
+			$query->where($db->quoteName('member') . ' = ' . (int) $member_id);
+		}
+		else
+		{
+			$query->where($db->quoteName('member') . ' = -2'); // return none
+		}
+		// get all items for the Forms table that belong to this user
+		$pks = $db->setQuery($query)->loadColumn();
+
+		if (self::checkArray($pks))
+		{
+			// get the form model
+			$model = self::getModel('form', JPATH_ADMINISTRATOR . '/components/com_sentinel');
+			// this is the pseudoanonymised data array for Forms
+			$pseudoanonymisedData = array(
+				'member' => '0'
+			);
+
+			// Get global permissional control activation. (default is inactive)
+			$strict_permission_per_field = JComponentHelper::getParams('com_sentinel')->get('strict_permission_per_field', 0);
+			if($strict_permission_per_field)
+			{
+				// remove all fields that is not permitted to be changed
+				if (!$user->authorise('form.edit.member', 'com_sentinel') || !$user->authorise('form.access.member', 'com_sentinel') || !$user->authorise('form.view.member', 'com_sentinel'))
+				{
+					unset($pseudoanonymisedData['member']);
+				}
+			}
+			// get the Forms table
+			$table = $model->getTable();
+			// check that we still have pseudoanonymised data for Forms set
+			if (!self::checkArray($pseudoanonymisedData))
+			{
+				// still archive all items
+				$table->publish($pks, 2);
+				return false;
+			}
+			// Iterate the items to anonimize each one.
+			foreach ($pks as $i => $pk)
+			{
+				$table->reset();
+				$pseudoanonymisedData['id'] = $pk;
+
+				if ($table->bind($pseudoanonymisedData))
+				{
+					$table->store();
+				}
+			}
+			// archive all items
+			$table->publish($pks, 2);
+		}
 	}
 
 

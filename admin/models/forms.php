@@ -11,7 +11,7 @@
 /-------------------------------------------------------------------------------------------------------------------------------/
 
 	@version		2.0.6
-	@build			25th February, 2020
+	@build			26th February, 2020
 	@created		16th June, 2017
 	@package		Sentinel
 	@subpackage		forms.php
@@ -309,6 +309,192 @@ class SentinelModelForms extends JModelList
 				$headers->{$column} = $column;
 			}
 			return $headers;
+		}
+		return false;
+	}
+
+	/**
+	 * Method to get data during an export request.
+	 *
+	 * @param   array  $pks  The ids of the items to get
+	 * @param   JUser  $user  The user making the request
+	 *
+	 * @return mixed  An array of data items on success, false on failure.
+	 */
+	public function getPrivacyExport($pks, $user = null)
+	{
+		// setup the query
+		if (SentinelHelper::checkArray($pks))
+		{
+			// Set a value to know this is privacy method. (USE IN CUSTOM CODE TO ALTER OUTCOME)
+			$_privacy = true;
+			// Get the user object if not set.
+			if (!isset($user) || !SentinelHelper::checkObject($user))
+			{
+				$user = JFactory::getUser();
+			}
+			// Create a new query object.
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true);
+
+			// Select some fields
+			$query->select('a.*');
+
+			// From the sentinel_form table
+			$query->from($db->quoteName('#__sentinel_form', 'a'));
+			$query->where('a.id IN (' . implode(',',$pks) . ')');
+			// Get global switch to activate text only export
+			$export_text_only = JComponentHelper::getParams('com_sentinel')->get('export_text_only', 0);
+			// Add these queries only if text only is required
+			if ($export_text_only)
+			{
+
+				// From the membersmanager_member table.
+				$query->select($db->quoteName('g.token','member'));
+				$query->join('LEFT', $db->quoteName('#__membersmanager_member', 'g') . ' ON (' . $db->quoteName('a.member') . ' = ' . $db->quoteName('g.id') . ')');
+			}
+			// Implement View Level Access
+			if (!$user->authorise('core.options', 'com_sentinel'))
+			{
+				$groups = implode(',', $user->getAuthorisedViewLevels());
+				$query->where('a.access IN (' . $groups . ')');
+			}
+
+			// Order the results by ordering
+			$query->order('a.ordering  ASC');
+
+			// Load the items
+			$db->setQuery($query);
+			$db->execute();
+			if ($db->getNumRows())
+			{
+				$items = $db->loadObjectList();
+
+				// Set values to display correctly.
+				if (SentinelHelper::checkArray($items))
+				{
+					// Get the user object if not set.
+					if (!isset($user) || !SentinelHelper::checkObject($user))
+					{
+						$user = JFactory::getUser();
+					}
+					// Get global permissional control activation. (default is inactive)
+					$strict_permission_per_field = JComponentHelper::getParams('com_sentinel')->get('strict_permission_per_field', 0);
+
+					foreach ($items as $nr => &$item)
+					{
+						// Remove items the user can't access.
+						$access = ($user->authorise('form.access', 'com_sentinel.form.' . (int) $item->id) && $user->authorise('form.access', 'com_sentinel'));
+						if (!$access)
+						{
+							unset($items[$nr]);
+							continue;
+						}
+
+						// use permissional control if globaly set.
+						if ($strict_permission_per_field)
+						{
+							// set access permissional control for name value.
+							if (isset($item->name) && (!$user->authorise('form.access.name', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.access.name', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->name = '';
+							}
+							// set view permissional control for name value.
+							if (isset($item->name) && (!$user->authorise('form.view.name', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.view.name', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->name = '';
+							}
+							// set access permissional control for guid value.
+							if (isset($item->guid) && (!$user->authorise('form.access.guid', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.access.guid', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->guid = '';
+							}
+							// set view permissional control for guid value.
+							if (isset($item->guid) && (!$user->authorise('form.view.guid', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.view.guid', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->guid = '';
+							}
+							// set access permissional control for alias value.
+							if (isset($item->alias) && (!$user->authorise('form.access.alias', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.access.alias', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->alias = '';
+							}
+							// set view permissional control for alias value.
+							if (isset($item->alias) && (!$user->authorise('form.view.alias', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.view.alias', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->alias = '';
+							}
+							// set access permissional control for hostkey value.
+							if (isset($item->hostkey) && (!$user->authorise('form.access.hostkey', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.access.hostkey', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->hostkey = '';
+							}
+							// set view permissional control for hostkey value.
+							if (isset($item->hostkey) && (!$user->authorise('form.view.hostkey', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.view.hostkey', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->hostkey = '';
+							}
+							// set access permissional control for member value.
+							if (isset($item->member) && (!$user->authorise('form.access.member', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.access.member', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->member = '';
+							}
+							// set view permissional control for member value.
+							if (isset($item->member) && (!$user->authorise('form.view.member', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.view.member', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->member = '';
+							}
+							// set access permissional control for trustkey value.
+							if (isset($item->trustkey) && (!$user->authorise('form.access.trustkey', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.access.trustkey', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->trustkey = '';
+							}
+							// set view permissional control for trustkey value.
+							if (isset($item->trustkey) && (!$user->authorise('form.view.trustkey', 'com_sentinel.form.' . (int) $item->id)
+								|| !$user->authorise('form.view.trustkey', 'com_sentinel')))
+							{
+								// We JUST empty the value (do you have a better idea)
+								$item->trustkey = '';
+							}
+						}
+						
+						if (!empty($item->hostkey))
+						{
+							// decrypt field
+							$item->hostkey = SentinelHelper::decrypt($item->hostkey);
+						}
+						
+						if (!empty($item->trustkey))
+						{
+							// decrypt field
+							$item->trustkey = SentinelHelper::decrypt($item->trustkey);
+						}
+					}
+				}
+				return json_decode(json_encode($items), true);
+			}
 		}
 		return false;
 	}

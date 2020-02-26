@@ -11,7 +11,7 @@
 /-------------------------------------------------------------------------------------------------------------------------------/
 
 	@version		2.0.6
-	@build			25th February, 2020
+	@build			26th February, 2020
 	@created		16th June, 2017
 	@package		Sentinel
 	@subpackage		router.php
@@ -82,11 +82,11 @@ class SentinelRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if (isset($view) && isset($query['id']) && ($view === 'form'))
+		if (isset($view) && isset($query['id']) && ($view === 'form' || $view === 'set'))
 		{
 			if ($mId != (int) $query['id'] || $mView != $view)
 			{
-				if (($view === 'form'))
+				if (($view === 'form' || $view === 'set'))
 				{
 					$segments[] = $view;
 					$id = explode(':', $query['id']);
@@ -136,6 +136,21 @@ class SentinelRouter extends JComponentRouterBase
 				if (is_numeric($segments[$count-1]))
 				{
 					$vars['id'] = (int) $segments[$count-1];
+				}
+				break;
+			case 'set':
+				$vars['view'] = 'set';
+				if (is_numeric($segments[$count-1]))
+				{
+					$vars['id'] = (int) $segments[$count-1];
+				}
+				elseif ($segments[$count-1])
+				{
+					$id = $this->getVar('form', $segments[$count-1], 'alias', 'id');
+					if($id)
+					{
+						$vars['id'] = $id;
+					}
 				}
 				break;
 		}
